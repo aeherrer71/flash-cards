@@ -18,7 +18,8 @@ function renderResults(response) {
   data = response.slice(0)
   random = response.sort(() => Math.random() - Math.random()).slice(0, 8)
 
-
+  console.log(data)
+  console.log(random)
   random = random.concat(random)
 
   createBoard(random)
