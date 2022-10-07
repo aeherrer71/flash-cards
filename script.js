@@ -1,7 +1,7 @@
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
-let totalTime = 100;
+let totalTime = 10;
 let timeRemaining = document.querySelector("#time-remaining")
 let shotClock;
 let clickCount = 0;
@@ -37,8 +37,6 @@ function createBoard(random) {
 
   shuffle(random)
 
-  console.log(random)
-
   random.forEach((random, index) => {
 
     let htmlTemplate = `
@@ -61,9 +59,7 @@ function createBoard(random) {
 
   cardContainer.forEach(cardContainer => {
     cardContainer.addEventListener('click', () => {
-      clickCount++;
-      flipDisplay.innerText = clickCount;
-      cardContainer.classlist.add('visible')
+      console.log('FLIP IT')
 
     })
   })
