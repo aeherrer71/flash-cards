@@ -1,6 +1,12 @@
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
+let totalTime = 100;
+let timeRemaining = document.querySelector("#time-remaining")
+let shotClock;
+let clickCount = 0;
+let flipDisplay = document.querySelector('#flips')
+let cardContainer = document.querySelectorAll('.card')
 
 const url = "https://digimon-api.vercel.app/api/digimon";
 
@@ -17,18 +23,21 @@ function renderResults(response) {
 
   data = response.slice(0)
   random = response.sort(() => Math.random() - Math.random()).slice(0, 8)
-
-  console.log(data)
-  console.log(random)
   random = random.concat(random)
+
+
 
   createBoard(random)
 
 }
 
-
 function createBoard(random) {
-  let cardContainer = document.querySelectorAll('.card')
+
+  let overlays = Array.from(document.getElementsByClassName('overlay-text'));
+
+  shuffle(random)
+
+  console.log(random)
 
   random.forEach((random, index) => {
 
@@ -43,4 +52,77 @@ function createBoard(random) {
     cardContainer[index].insertAdjacentHTML('afterbegin', htmlTemplate)
   })
 
+  overlays.forEach(overlays => {
+    overlays.addEventListener('click', () => {
+      overlays.classList.remove('visible')
+      startCountdown()
+    })
+  })
+
+  cardContainer.forEach(cardContainer => {
+    cardContainer.addEventListener('click', () => {
+      clickCount++;
+      flipDisplay.innerText = clickCount;
+      cardContainer.classlist.add('visible')
+
+    })
+  })
+
 }
+
+function gamePlay() {
+
+
+
+}
+
+function gameOver() {
+  clearInterval(shotClock)
+  document.querySelector('#game-over-text').classList.add('visible')
+}
+
+function victory() {
+  clearInterval(shotClock)
+  document.querySelector('#victory-text').classList.add('visible')
+}
+
+function startCountdown() {
+  return shotClock = setInterval(() => {
+    totalTime--;
+    timeRemaining.innerText = totalTime;
+    if (totalTime === 0) {
+      gameOver()
+    }
+  }, 1000)
+}
+
+function shuffle(random) {
+  let currentIndex = random.length
+  let randomIndex;
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [random[currentIndex], random[randomIndex]] = [random[randomIndex], random[currentIndex]];
+
+  }
+}
+
+// function flipper(cardContainer) {
+//   clickCount++;
+//   flipDisplay.innerText = clickCount;
+//   cardContainer.classlist.add('visible')
+// }
+
+/*
+total time / time remaining  start clock
+
+total flips
+
+gameStateActive = false
+
+
+
+
+*/

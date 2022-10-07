@@ -99,12 +99,16 @@ body {
 }
 
 @keyframes dance {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: rotate(0);
   }
+
   25% {
     transform: rotate(-30deg);
   }
+
   75% {
     transform: rotate(30deg);
   }
@@ -134,13 +138,14 @@ body {
     background-color: rgba(0, 0, 0, 0);
     font-size: 0;
   }
+
   to {
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0, 0, 0, .8);
     font-size: 8em;
   }
 }
 
-.overlay-text-small{
+.overlay-text-small {
   font-size: 30%;
 }
 
