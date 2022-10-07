@@ -1,12 +1,16 @@
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
-let totalTime = 10;
+let totalTime = 100;
 let timeRemaining = document.querySelector("#time-remaining")
 let shotClock;
 let clickCount = 0;
 let flipDisplay = document.querySelector('#flips')
 let cardContainer = document.querySelectorAll('.card')
+let visible = false;
+let compareArr = [];
+let winningArr = [];
+
 
 const url = "https://digimon-api.vercel.app/api/digimon";
 
@@ -38,7 +42,9 @@ function createBoard(random) {
   shuffle(random)
 
   random.forEach((random, index) => {
+    
 
+    
     let htmlTemplate = `
     <div class="card-back card-face">
     <img class="digi-back" src="https://pbs.twimg.com/media/EcJJNZEX0AES_Wh.jpg">
@@ -56,13 +62,15 @@ function createBoard(random) {
       startCountdown()
     })
   })
+    cardContainer.forEach(cardContainer => {
+      cardContainer.addEventListener('click', (e) => {
 
-  cardContainer.forEach(cardContainer => {
-    cardContainer.addEventListener('click', (e) => {
-      flipper(e)
+        flipper(e)
+      
 
+      })
     })
-  })
+  
 
 }
 
@@ -106,12 +114,29 @@ function shuffle(random) {
 }
 
 function flipper(e) {
-  console.log(e)
-  
-  clickCount++;
-  flipDisplay.innerText = clickCount;
-  e.path[2].classList.add('visible')
-}
+  // console.log(e.target.parentNode.parentNode.dataset.flip)
+  let flipContainer = e.target.parentNode.parentNode
+  if (flipContainer.dataset.flip === "false") {
+    flipContainer.dataset.flip = "true"
+    clickCount++;
+    flipDisplay.innerText = clickCount;
+    e.path[2].classList.add('visible')
+    compareArr.push(e.target.src)
+
+    while (compareArr.length === 2) {
+      if (compareArr[0] === compareArr[1] && compareArr.length === 2) {
+        winningArr = [...[compareArr]]
+        compareArr = []
+      }
+      else {
+        e.path[2].classList.remove('visible')
+
+      }
+    }
+  }
+  }
+
+
 
 /*
 total time / time remaining  start clock
