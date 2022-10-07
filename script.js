@@ -58,8 +58,8 @@ function createBoard(random) {
   })
 
   cardContainer.forEach(cardContainer => {
-    cardContainer.addEventListener('click', () => {
-      console.log('FLIP IT')
+    cardContainer.addEventListener('click', (e) => {
+      flipper(e)
 
     })
   })
@@ -105,11 +105,13 @@ function shuffle(random) {
   }
 }
 
-// function flipper(cardContainer) {
-//   clickCount++;
-//   flipDisplay.innerText = clickCount;
-//   cardContainer.classlist.add('visible')
-// }
+function flipper(e) {
+  console.log(e)
+  
+  clickCount++;
+  flipDisplay.innerText = clickCount;
+  e.path[2].classList.add('visible')
+}
 
 /*
 total time / time remaining  start clock
