@@ -66,7 +66,7 @@ function createBoard(random) {
       cardContainer.addEventListener('click', (e) => {
 
         flipper(e)
-      
+        console.log(e.target)
 
       })
     })
@@ -115,29 +115,42 @@ function shuffle(random) {
 
 function flipper(e) {
   // console.log(e.target.parentNode.parentNode.dataset.flip)
+  let cardImgUrl = e.target.parentNode.parentNode.children[1].children[0].src
   let flipContainer = e.target.parentNode.parentNode
   if (flipContainer.dataset.flip === "false") {
-    flipContainer.dataset.flip = "true"
     clickCount++;
     flipDisplay.innerText = clickCount;
-    e.path[2].classList.add('visible')
-    compareArr.push(e.target.src)
+    flipContainer.classList.add('visible')
+    flipContainer.dataset.flip = "true"
 
-    while (compareArr.length === 2) {
-      if (compareArr[0] === compareArr[1] && compareArr.length === 2) {
-        winningArr = [...[compareArr]]
-        compareArr = []
+    compareArr.push(cardImgUrl)
+    console.log(compareArr)
+  
+
+    if (compareArr.length === 2) {
+    
+      if (compareArr[0] === compareArr[1]) {
+        console.log('matched')
+            winningArr = compareArr.slice(0)
+            // console.log(compareArr)
+            // console.log(winningArr)
+            compareArr = []
       }
       else {
-        e.path[2].classList.remove('visible')
-
+        // flipContainer.classList.remove('visible')
+        //     flipContainer.dataset.flip = "false"
+            compareArr = []
+    
       }
     }
-  }
-  }
+    
+  }}
 
 
 
+function compare() {
+  // console.log(compareArr)
+}
 /*
 total time / time remaining  start clock
 
