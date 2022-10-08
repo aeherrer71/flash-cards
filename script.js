@@ -1,3 +1,5 @@
+let lastCardUrl = "";
+let currentCardUrl = "";
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
@@ -10,6 +12,7 @@ let cardContainer = document.querySelectorAll('.card')
 let visible = false;
 let compareArr = [];
 let winningArr = [];
+let cardToCheck = null;
 
 
 const url = "https://digimon-api.vercel.app/api/digimon";
@@ -42,9 +45,7 @@ function createBoard(random) {
   shuffle(random)
 
   random.forEach((random, index) => {
-    
 
-    
     let htmlTemplate = `
     <div class="card-back card-face">
     <img class="digi-back" src="https://pbs.twimg.com/media/EcJJNZEX0AES_Wh.jpg">
@@ -62,22 +63,13 @@ function createBoard(random) {
       startCountdown()
     })
   })
-    cardContainer.forEach(cardContainer => {
-      cardContainer.addEventListener('click', (e) => {
+  cardContainer.forEach(cardContainer => {
+    cardContainer.addEventListener('click', (e) => {
 
-        flipper(e)
-        console.log(e.target)
+      cardTouched(e)
 
-      })
     })
-  
-
-}
-
-function gamePlay() {
-
-
-
+  })
 }
 
 function gameOver() {
@@ -113,52 +105,64 @@ function shuffle(random) {
   }
 }
 
-function flipper(e) {
-  // console.log(e.target.parentNode.parentNode.dataset.flip)
-  let cardImgUrl = e.target.parentNode.parentNode.children[1].children[0].src
+
+
+
+function cardTouched(e) {
+
+  let currentCardUrl = e.target.parentNode.parentNode.children[1].children[0].src
   let flipContainer = e.target.parentNode.parentNode
+
   if (flipContainer.dataset.flip === "false") {
+
+
+
     clickCount++;
     flipDisplay.innerText = clickCount;
-    flipContainer.classList.add('visible')
-    flipContainer.dataset.flip = "true"
 
-    compareArr.push(cardImgUrl)
-    console.log(compareArr)
-  
 
-    if (compareArr.length === 2) {
-    
-      if (compareArr[0] === compareArr[1]) {
-        console.log('matched')
-            winningArr = compareArr.slice(0)
-            // console.log(compareArr)
-            // console.log(winningArr)
-            compareArr = []
+    if (cardToCheck != null) {
+
+      if (currentCardUrl === lastCardUrl) {
+
+        showCard(flipContainer);
+        winningArr.push(currentCardUrl)
+        winningArr.push(lastCardUrl)
+        console.log(winningArr)
+        cardToCheck = null;
+
+        if (winningArr.length == 16) {
+          victory()
+        }
+
+      } else {
+
+        showCard(flipContainer);
+
+        setTimeout(() => {
+
+          hideCard(flipContainer);
+          hideCard(cardToCheck);
+          cardToCheck = null;
+
+        }, 400)
       }
-      else {
-        // flipContainer.classList.remove('visible')
-        //     flipContainer.dataset.flip = "false"
-            compareArr = []
-    
-      }
+    } else {
+
+      flipContainer.classList.add("visible");
+      flipContainer.dataset.flip = "true"
+      lastCardUrl = currentCardUrl;
+      cardToCheck = flipContainer;
     }
-    
-  }}
-
-
-
-function compare() {
-  // console.log(compareArr)
+  }
 }
-/*
-total time / time remaining  start clock
 
-total flips
+function hideCard(card) {
+  card.classList.remove('visible')
+  card.dataset.flip = "false"
+}
 
-gameStateActive = false
-
-
-
-
-*/
+function showCard(card) {
+  card.classList.add('visible')
+  card.dataset.flip = "true"
+}
