@@ -3,7 +3,7 @@ let currentCardUrl = "";
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
-let totalTime = 100;
+let totalTime = 40;
 let timeRemaining = document.querySelector("#time-remaining")
 let shotClock;
 let clickCount = 0;
@@ -13,6 +13,7 @@ let visible = false;
 let compareArr = [];
 let winningArr = [];
 let cardToCheck = null;
+
 
 
 const url = "https://digimon-api.vercel.app/api/digimon";
@@ -32,14 +33,11 @@ function renderResults(response) {
   random = response.sort(() => Math.random() - Math.random()).slice(0, 8)
   random = random.concat(random)
 
-
-
-  createBoard(random)
+  gamePlay(random)
 
 }
 
-function createBoard(random) {
-
+function gamePlay(random) {
   let overlays = Array.from(document.getElementsByClassName('overlay-text'));
 
   shuffle(random)
@@ -65,9 +63,7 @@ function createBoard(random) {
   })
   cardContainer.forEach(cardContainer => {
     cardContainer.addEventListener('click', (e) => {
-
       cardTouched(e)
-
     })
   })
 }
@@ -75,14 +71,19 @@ function createBoard(random) {
 function gameOver() {
   clearInterval(shotClock)
   document.querySelector('#game-over-text').classList.add('visible')
+  hideAll()
+  // window.location.reload();
+
 }
 
 function victory() {
   clearInterval(shotClock)
   document.querySelector('#victory-text').classList.add('visible')
+  hideAll()
 }
 
 function startCountdown() {
+  displayAll()
   return shotClock = setInterval(() => {
     totalTime--;
     timeRemaining.innerText = totalTime;
@@ -141,10 +142,10 @@ function cardTouched(e) {
 
         setTimeout(() => {
 
+
           hideCard(flipContainer);
           hideCard(cardToCheck);
           cardToCheck = null;
-
         }, 400)
       }
     } else {
@@ -166,3 +167,30 @@ function showCard(card) {
   card.classList.add('visible')
   card.dataset.flip = "true"
 }
+
+function hideAll() {
+
+  totalTime = 40;
+  clickCount = 0
+  timeRemaining.innerText = totalTime;
+  flipDisplay.innerText = clickCount;
+  cardContainer.forEach(cardContainer => {
+    cardContainer.classList.remove('visible')
+
+  })
+}
+
+function displayAll() {
+  // totalTime = 5;
+  // timeRemaining.innerText = 5
+  // winningArr = [];
+  // cardToCheck = null;
+
+
+  cardContainer.forEach(cardContainer => {
+    cardContainer.classList.add('visible')
+    cardContainer.dataset.flip = 'false'
+  })
+  setTimeout(hideAll, 5000)
+}
+
