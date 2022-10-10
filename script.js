@@ -3,7 +3,7 @@ let currentCardUrl = "";
 let data = [];
 let random = [];
 let imageFront = document.querySelector(".digi-front")
-let totalTime = 40;
+let totalTime = 60;
 let timeRemaining = document.querySelector("#time-remaining")
 let shotClock;
 let clickCount = 0;
@@ -171,7 +171,7 @@ function showCard(card) {
 
 function hideAll() {
 
-  totalTime = 40;
+  totalTime = 60;
   clickCount = 0
   timeRemaining.innerText = totalTime;
   flipDisplay.innerText = clickCount;
