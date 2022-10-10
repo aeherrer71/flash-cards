@@ -9,8 +9,7 @@ let shotClock;
 let clickCount = 0;
 let flipDisplay = document.querySelector('#flips')
 let cardContainer = document.querySelectorAll('.card')
-let visible = false;
-let compareArr = [];
+let reset = false;
 let winningArr = [];
 let cardToCheck = null;
 
@@ -57,8 +56,13 @@ function gamePlay(random) {
 
   overlays.forEach(overlays => {
     overlays.addEventListener('click', () => {
-      overlays.classList.remove('visible')
-      startCountdown()
+
+      if (reset === true) {
+        window.location.reload();
+      } else {
+        overlays.classList.remove('visible')
+        startCountdown()
+      }
     })
   })
   cardContainer.forEach(cardContainer => {
@@ -72,14 +76,14 @@ function gameOver() {
   clearInterval(shotClock)
   document.querySelector('#game-over-text').classList.add('visible')
   hideAll()
-  // window.location.reload();
-
+  reset = true;
 }
 
 function victory() {
   clearInterval(shotClock)
   document.querySelector('#victory-text').classList.add('visible')
   hideAll()
+  reset = true;
 }
 
 function startCountdown() {
@@ -105,9 +109,6 @@ function shuffle(random) {
 
   }
 }
-
-
-
 
 function cardTouched(e) {
 
@@ -181,16 +182,13 @@ function hideAll() {
 }
 
 function displayAll() {
-  // totalTime = 5;
-  // timeRemaining.innerText = 5
-  // winningArr = [];
-  // cardToCheck = null;
-
+  totalTime = 6;
+  timeRemaining.innerText = 6
 
   cardContainer.forEach(cardContainer => {
     cardContainer.classList.add('visible')
     cardContainer.dataset.flip = 'false'
   })
-  setTimeout(hideAll, 5000)
+  setTimeout(hideAll, 6000)
 }
 

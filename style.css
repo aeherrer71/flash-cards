@@ -2,10 +2,12 @@
   box-sizing: border-box;
 }
 
-html {}
+html {
+  min-height: 100vh;
+}
 
 body {
-  min-height: 100vh;
+
   position: relative;
   margin: 0;
   background: black;
@@ -42,7 +44,6 @@ body {
 }
 
 .card {
-
   height: 175px;
   width: 125px;
   position: relative
@@ -100,25 +101,6 @@ body {
   background-color: black;
 }
 
-/* .card.matched .card-value {
-  animation: dance 1s linear infinite 500ms;
-}
-
-@keyframes dance {
-
-  0%,
-  100% {
-    transform: rotate(0);
-  }
-
-  25% {
-    transform: rotate(-30deg);
-  }
-
-  75% {
-    transform: rotate(30deg);
-  }
-} */
 
 .overlay-text {
   position: fixed;
@@ -129,7 +111,7 @@ body {
   justify-content: center;
   align-items: center;
   z-index: 100;
-  color: yellow;
+  color: orange;
   display: none;
 }
 
